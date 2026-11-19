@@ -183,6 +183,15 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes refineFlash {
+      0% { box-shadow: 0 0 0 0 rgba(245, 139, 198, 0.7); background-color: #FFF0F7; }
+      100% { box-shadow: 0 0 0 8px rgba(245, 139, 198, 0); background-color: #FFFAFF; }
+    }
+
+    .animate-refine-flash {
+      animation: refineFlash 0.65s ease-out;
+    }
+
     .animate-twinkle {
       animation: twinkle 3.6s ease-in-out infinite;
     }
@@ -653,7 +662,7 @@
             <input
               id="idea-tags-input"
               type="text"
-              placeholder="e.g., wanita, skincare, sideincome, motherhood"
+              placeholder="e.g., digitalproducts, wanita, sideincome, mindset"
               class="w-full px-3.5 py-2.5 rounded-xl bg-pearlWhite border border-lavender/50 text-xs sm:text-sm text-deepGrape placeholder:text-deepGrape/40"
             />
           </div>
@@ -802,7 +811,7 @@
 
         <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blushCream border border-dreamyPink/60 font-hand text-xs font-semibold text-deepGrape self-start sm:self-auto">
           <svg class="w-3.5 h-3.5 text-candyPink" viewBox="0 0 24 24"><use href="#svg-bow"/></svg>
-          <span>8 Mirror Lenses • Deep Relatable Flow</span>
+          <span>8 Mirror Lenses • Dynamic Thought-Weaver</span>
         </span>
       </div>
 
@@ -929,8 +938,8 @@
         <svg class="w-10 h-10 mx-auto text-softPurple animate-spin" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.5" stroke-dasharray="42 18"/>
         </svg>
-        <p class="font-display font-bold text-lg text-deepGrape">Weaving relatable micro-moments in Manglish...</p>
-        <p class="text-xs text-deepGrape/70">Reflecting unspoken thoughts so your audience feels truly understood.</p>
+        <p class="font-display font-bold text-lg text-deepGrape">Mirroring your exact thought in Manglish...</p>
+        <p class="text-xs text-deepGrape/70">Unpacking your perspective so readers feel truly understood.</p>
       </div>
 
       <div id="create-output-wrapper" class="hidden space-y-5">
@@ -1010,7 +1019,10 @@
           </div>
 
           <div class="pt-3 border-t border-lavender/35 space-y-2.5">
-            <div class="text-xs font-bold uppercase tracking-wider text-deepGrape/70">Refine &amp; Regenerate (Next Mirror Lens Every Tap)</div>
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-deepGrape/70">Refine &amp; Regenerate (Tap Any Button to Transform)</span>
+              <span id="last-refine-badge" class="hidden text-[11px] font-bold text-candyPink bg-blushCream px-2.5 py-0.5 rounded-full border border-dreamyPink/50"></span>
+            </div>
             <div class="flex flex-wrap gap-2">
               <button type="button" onclick="App.regenerateWithModifier('regenerate_all')" class="px-3 py-1.5 rounded-xl bg-lilacMist/80 hover:bg-lilacMist text-deepGrape text-xs font-semibold transition">Next Mirror Angle</button>
               <button type="button" onclick="App.regenerateWithModifier('rewrite_opening')" class="px-3 py-1.5 rounded-xl bg-blushCream hover:bg-softPeach/60 text-deepGrape text-xs font-semibold border border-dreamyPink/40 transition">Rewrite Hook Only</button>
@@ -1601,14 +1613,14 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
 
     const MIRROR_LENSES = [
       { id: 'auto', label: 'Auto-Rotate (8 Lenses)', short: 'Auto-Rotate', desc: 'Cycles through 8 distinct mirror perspectives on every tap' },
-      { id: 'contradiction', label: '1. Silent Contradiction', short: 'Outside vs Inside', desc: 'What you show on the outside vs what you carry silently inside' },
-      { id: 'micromoment', label: '2. 11PM Micro-Moment', short: 'Vivid Scene', desc: 'Zooms into one hyper-specific everyday moment readers recognize immediately' },
-      { id: 'monologue', label: '3. Internal Monologue', short: 'Unspoken Voice', desc: 'Quotes the exact private thoughts people say in their head but never out loud' },
-      { id: 'invisible_load', label: '4. The Invisible Load', short: 'Quiet Sacrifice', desc: 'Reflects the unseen mental & emotional weight carried for others' },
-      { id: 'later_trap', label: '5. The "Later" Trap', short: 'Deferred Joy', desc: 'How we constantly put our own needs & desires last on the list' },
-      { id: 'permission', label: '6. Permission & Relief', short: 'Soft Validation', desc: 'Removes quiet guilt without sounding like a cheesy motivational poster' },
-      { id: 'bestfriend', label: '7. Sister-to-Sister Confession', short: 'Candid Chat', desc: 'Honest, warm, slightly cheeky heart-to-heart like talking to a best friend' },
-      { id: 'what_if', label: '8. Gentle "What If" Shift', short: 'New Possibility', desc: 'Opens a realistic, pressure-free way out without forced hard-selling' }
+      { id: 'contradiction', label: '1. Silent Contradiction', short: 'Outside vs Inside', desc: 'What people assume on the surface vs the unseen reality behind it' },
+      { id: 'micromoment', label: '2. Real-Life Moment', short: 'Vivid Scene', desc: 'Zooms into the exact moment or conversation that sparked this thought' },
+      { id: 'monologue', label: '3. Internal Monologue', short: 'Unspoken Voice', desc: 'Quotes the exact private thoughts people think in their head but never say' },
+      { id: 'invisible_load', label: '4. Unseen Behind-the-Scenes', short: 'Hidden Effort', desc: 'Reflects the invisible work, trial-and-error, or weight others miss' },
+      { id: 'later_trap', label: '5. Surface vs Reality', short: 'Myth vs Truth', desc: 'Unpacks why oversimplified assumptions miss what actually happens' },
+      { id: 'permission', label: '6. Honest Validation', short: 'Soft Validation', desc: 'Validates the reader without sounding like a cheesy motivational poster' },
+      { id: 'bestfriend', label: '7. Candid Best-Friend Chat', short: 'Candid Chat', desc: 'Warm, honest, slightly cheeky Manglish heart-to-heart' },
+      { id: 'what_if', label: '8. Fresh Perspective Shift', short: 'New Possibility', desc: 'Reframes the situation into a clearer, relatable realization' }
     ];
 
     const AVATAR_OPTIONS = [
@@ -1752,7 +1764,7 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
               id: sampleContentId,
               title: 'Bila rehat pun rasa bersalah (Threads)',
               sourceIdeaId: sampleIdeaId,
-              analysisAngle: '11PM Micro-Moment: Validasi rasa bersalah bila ambil masa rehat',
+              analysisAngle: 'Real-Life Moment: Validasi rasa bersalah bila ambil masa rehat',
               bodyText: `Peliks kan bila badan dah baring atas katil, tapi dalam kepala masih ligat kira semua benda yang belum sempat siap hari ni.\n\nBaru duduk diam 15 minit tanpa pegang kerja, terus datang rasa bersalah macam kita tengah mencuri masa. Padahal dari pagi otak dah non-stop fikir benda yang orang lain tak nampak pun.\n\nDalam hati selalu bisik, "Nanti dah settle semua baru aku layak rehat." Masalahnya, senarai tanggungjawab tu tak pernah betul-betul habis.\n\nRehat bukan hadiah yang you kena menang dulu baru boleh dapat. Rehat tu keperluan supaya you tak burn out diam-diam.\n\nCuba hari ni bagi izin kat diri sendiri untuk pause kejap tanpa rasa bersalah. You dah cuba sehabis baik hari ni, kan?`,
               format: 'Threads Single Relatable Thought',
               tone: 'Reflective',
@@ -1834,10 +1846,13 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
     };
 
     /**
-     * 3. DEEP PSYCHOLOGICAL MIRROR CONTENT ENGINE (8 LENSES + RICH MICRO-MOMENTS)
+     * 3. DYNAMIC THOUGHT-MIRRORING ENGINE
+     *    Reads the owner's EXACT sentences, events, quotes, mindsets, and unfinished
+     *    cliffhangers (e.g. "Padahaalllll") without ever relying on canned topic buckets.
      */
     const AIService = {
       generationSeed: 0,
+      refineCounts: {},
 
       _cleanSentence(str) {
         return (str || '')
@@ -1850,6 +1865,19 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
         if (!str) return '';
         if (/^(I|I'm|I've|AI|UI|UX|Allah|Malaysia|KL|TikTok|Instagram|Threads|Lemon8|Shopee|Grab)\b/.test(str)) return str;
         return str.charAt(0).toLowerCase() + str.slice(1);
+      },
+
+      /**
+       * Converts raw diary "aku" naturally into the owner's conversational "I" voice
+       * and normalizes expressive stretched endings (e.g. "Padahaalllll" -> "Padahal").
+       */
+      _toOwnerVoice(str) {
+        return (str || '')
+          .replace(/\baku\b/gi, 'I')
+          .replace(/padaha+l+/gi, 'Padahal')
+          .replace(/([a-zA-Z])\1{2,}/g, '$1')
+          .replace(/\s+/g, ' ')
+          .trim();
       },
 
       _polishManglish(text) {
@@ -1867,315 +1895,119 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
       },
 
       /**
-       * Context-faithful parser: reads the owner's exact topic and emotional angle
-       * without ever forcing unrelated lifestyle/money tropes onto non-money ideas.
+       * Dynamic Thought-Mirroring Parser:
+       * Dissects ANY raw brain dump into its actual narrative elements:
+       * - triggerEvent: e.g. "Tadi ada orang tanya I pasal digital products"
+       * - premiseOrMindset: e.g. "Mindset dia, buat sendiri lagi kaya"
+       * - contrastOrReality: explicit contrast or expanded unfinished "Padahal..." cliffhanger
+       * - coreSubject: the exact topic being discussed (e.g. "digital products")
        */
-      _deepMirrorParse(rawText) {
-        const clean = (rawText || '').trim();
-        const sentences = clean.split(/[.!?\n]+/).map(s => this._cleanSentence(s)).filter(Boolean);
-        const firstSentence = sentences[0] || 'benda yang kita selalu pendam dalam kepala';
-        const secondSentence = sentences[1] || '';
-        const thirdSentence = sentences[2] || '';
-        const lower = clean.toLowerCase();
+      _analyzeRawThought(rawText) {
+        const raw = (rawText || '').trim();
+        const rawSentences = raw
+          .split(/[.!?\n]+/)
+          .map(s => this._cleanSentence(s))
+          .filter(Boolean);
 
-        // Priority 1: Creator / AI Builder / App & Game Design / Craftsmanship
-        const isCreatorBuilder = /(ai\b|app\b|apps\b|game|games|ui\b|ux\b|design|coding|code|website|feature|kids.?friendly|developer|software|sistem|digital product|produk digital)/i.test(lower);
+        const sentences = rawSentences.map(s => this._toOwnerVoice(s));
+        const s0 = sentences[0] || 'benda yang kita selalu pendam dalam kepala';
+        const s1 = sentences[1] || '';
+        const s2 = sentences[2] || '';
+        const restSentences = sentences.slice(2);
 
-        // Priority 2: Explicit Income / Promo / Offer (only when actual income/promo terms appear)
-        const isOfferOrAds = !isCreatorBuilder && /(buat duit|side income|extra income|jana pendapatan|jana income|bisnes|agent|dropship|komisen|duit poket|peluang.*duit)/i.test(lower);
+        // Detect trailing/unfinished cliffhanger like "Padahaalllll", "Tapi kan...", "Cuma..."
+        const lastRaw = rawSentences[rawSentences.length - 1] || '';
+        const hasUnfinishedPadahal = /^(padaha+l+|tapi(\s+kan)?|cuma|masalahnya|sebenarnya)\.{0,5}$/i.test(lastRaw);
 
-        // Priority 3: Women / Motherhood lifestyle (excludes "kids friendly" app design)
-        const isMotherhoodWomen = !isCreatorBuilder && /(suri rumah|anak depan mata|mak-mak|ibu|skincare|makanan viral)/i.test(lower);
-
-        // Priority 4: Emotional / Daily Life Domains
-        const isRestBurnout = !isCreatorBuilder && /(rehat|penat|tired|burnout|rest|guilt|bersalah|tidur|sleep|letih|overwhelmed)/i.test(lower);
-        const isConsistency = !isCreatorBuilder && /(konsisten|consistent|content|post|malas|disiplin|stuck|idea|takut|judge|banding|compare)/i.test(lower);
-        const isRelationship = !isCreatorBuilder && /(pasangan|suami|isteri|sayang|sunyi|kecewa|diam|faham|jaga hati|relationship|cinta|penat jaga)/i.test(lower);
-        const isWorkMoney = !isCreatorBuilder && /(kerja|gaji|komitmen|hutang|saving|boss|resign|adulting|masa depan|duit|bajet)/i.test(lower);
-
-        // Split contrast clauses naturally ("... tapi ...")
-        const tapiMatch = clean.match(/^(.+?)\b(?:tapi|tetapi|cuma|but|however)\b\s*(.+)$/is);
-        const premiseClause = tapiMatch ? this._cleanSentence(tapiMatch[1]) : firstSentence;
-        const realityClause = tapiMatch ? this._cleanSentence(tapiMatch[2]).split(/[.!?\n]/)[0].trim() : secondSentence;
-
-        if (isCreatorBuilder) {
-          const coreIdea = this._lowerFirst(firstSentence);
-          const deeperGoal = secondSentence ? this._lowerFirst(secondSentence) : 'nak hasilkan sesuatu yang betul-betul useful dan memudahkan hidup orang';
-
-          return {
-            domain: 'creator_builder',
-            firstSentence,
-            secondSentence,
-            desireClause: firstSentence,
-            constraintClause: realityClause || 'nak susun setiap detail supaya senang difahami dan mesra pengguna tu makan masa dan tenaga fikir',
-            bridgeClause: deeperGoal,
-            isOfferOrAds: false,
-            isMotherhoodWomen: false,
-            theme: `the unseen heart, patience, and craft behind ${coreIdea}`,
-            emotion: 'quiet pride, creative exhaustion, and genuine care for the end user',
-            microScenes: [
-              `Pukul 1 pagi skrin masih menyala—orang luar ingat guna AI ni macam tekan satu butang terus siap, padahal you tengah teliti satu-satu susunan UI, warna, dan flow supaya bila orang guna nanti terus rasa senang dan selesa.`,
-              `Bila dah siap satu bahagian, you test balik dari mata pengguna baru—tukar posisi butang, kemaskan ayat, tambah feature kecil yang orang tak minta pun tapi you tahu akan buat pengalaman mereka jauh lebih best.`,
-              `Kat luar nampak hasilnya comel, kemas, dan effortless macam senang je nak buat. Tak ramai nampak berapa kali you ubah, baiki, dan fikir semula di belakang tabir supaya benda tu betul-betul berguna.`
-            ],
-            monologues: [
-              `“Ramai ingat pakai AI ni semua benda jadi automatik… padahal nak bagi nampak simple, mesra pengguna, dan betul-betul membantu tu lah bahagian paling mencabar.”`,
-              `“Aku tak nak buat benda yang sekadar nampak gempak kat luar tapi kosong bila orang guna—kalau boleh, biar setiap detail tu ada fungsi.”`,
-              `“Penat sikit takpe, asalkan bila orang buka nanti terus rasa ‘eh, senangnya guna ni, memang membantu’.”`
-            ],
-            contradictions: [
-              `Zaman sekarang memang ramai boleh guna AI untuk hasilkan sesuatu dengan cepat, tapi beza antara benda yang "sekadar siap" dengan benda yang "ada jiwa" terletak pada ketelitian orang yang membina.`,
-              `Luar nampak ringkas dan comel, padahal untuk jadikan sesuatu tu nampak simple dan mesra pengguna memerlukan pemikiran yang jauh lebih mendalam.`
-            ],
-            situations: [
-              `Ubah susunan UI dan warna berkali-kali supaya pengguna rasa selesa dan seronok guna`,
-              `Fikirkan pengalaman pengguna dari mula sampai habis, bukan sekadar nak siapkan projek cepat`,
-              `Rasa puas hati diam-diam bila apa yang kita bina betul-betul membantu orang lain`
-            ]
-          };
+        // Extract core subject noun phrase (e.g. "pasal digital products" -> "digital products")
+        let coreSubject = '';
+        const pasalMatch = s0.match(/\b(?:pasal|tentang|bab|about|on|regarding)\s+([^,.!?]+)/i);
+        if (pasalMatch) {
+          coreSubject = this._cleanSentence(pasalMatch[1]);
+        } else {
+          coreSubject = this._lowerFirst(s0.split(/\s+/).slice(0, 7).join(' '));
         }
 
-        if (isOfferOrAds) {
-          let constraintClause = realityClause;
-          let bridgeClause = thirdSentence;
-          const whatIfMatch = clean.match(/(?:what if|macam mana kalau|bayangkan kalau|kalau i cakap)\s+([^.!?\n]+)/i);
-          if (whatIfMatch) bridgeClause = this._cleanSentence(whatIfMatch[1]);
+        // Detect conversational trigger ("Tadi ada orang tanya...", "Semalam kawan cakap...", "Ramai orang ingat...")
+        const isConversationTrigger = /^(tadi|semalam|baru je|haritu|hari tu|masa|bila|pernah tak|ada orang|kawan|ramai orang)/i.test(s0);
 
-          if (!constraintClause) {
-            constraintClause = isMotherhoodWomen
-              ? 'most of the time kena tahan diri sebab fikir bajet rumah dan komitmen keluarga'
-              : 'selalu kena berkira-kira sebab fikir komitmen duit yang makin banyak';
-          }
-          if (!bridgeClause) {
-            bridgeClause = isMotherhoodWomen
-              ? 'ada peluang buat duit poket dari rumah tanpa abaikan anak depan mata'
-              : 'ada peluang tambah income secara fleksibel ikut rentak masa you sendiri';
-          }
-
-          return {
-            domain: 'offer_ads',
-            firstSentence,
-            secondSentence,
-            desireClause: premiseClause,
-            constraintClause,
-            bridgeClause,
-            isOfferOrAds: true,
-            isMotherhoodWomen,
-            theme: isMotherhoodWomen
-              ? 'wanting to care for yourself without sacrificing family or finances'
-              : 'wanting financial breathing room without burning out',
-            emotion: 'quiet longing for financial freedom, self-reward, and peace of mind',
-            microScenes: isMotherhoodWomen
-              ? [
-                  'Pukul 11 malam lepas anak dah lena, you baring scroll phone—tengok skincare yang dah lama masuk wishlist atau makanan viral yang nampak sedap, tapi jari automatik tekan button "back" sebab dalam kepala tengah kira bil dan barang dapur minggu depan.',
-                  'Bila keluar jalan-jalan dan nampak benda yang you berkenan untuk diri sendiri, ayat pertama yang keluar dalam kepala bukan "cantiknya benda ni", tapi "takpelah, simpan dulu duit ni untuk anak atau rumah".',
-                  'Kat luar orang nampak you steady je urus rumah tangga dan anak-anak, padahal kadang-kadang you teringin sangat nak ada duit poket sendiri—supaya nak beli apa-apa untuk diri sendiri pun tak perlu rasa serba salah.'
-                ]
-              : [
-                  'Tengah malam scroll phone sambil tengok barang atau pengalaman yang you dah lama teringin, tapi sebelum sempat tekan checkout, otak dah buka kalkulator kira baki komitmen bulan ni.',
-                  'Setiap kali duit masuk, automatik semua dah bertuan—bil, komitmen, keperluan orang lain—sampai bahagian untuk reward diri sendiri selalu jadi benda terakhir yang terpaksa ditangguh.',
-                  'You bukan jenis meminta-minta benda mewah pun. Cuma teringin nak rasa lega bila nak beli sesuatu tanpa perlu fikir dua tiga kali.'
-                ],
-            monologues: isMotherhoodWomen
-              ? [
-                  '“Aku pun teringin nak jaga muka, nak makan sedap macam orang lain… tapi aku tak sanggup nak buat kerja yang sampai anak depan mata terabai.”',
-                  '“Takpelah, dahulukan keperluan anak dengan rumah dulu. Keinginan aku sendiri nanti-nanti pun tak apa.”',
-                  '“Kalaulah ada cara cari duit sendiri dari rumah yang tak ganggu masa dengan anak, mesti hati rasa lebih lapang.”'
-                ]
-              : [
-                  '“Nanti-nanti je lah beli untuk diri sendiri, bulan ni banyak benda lain lagi penting.”',
-                  '“Penatnya bila setiap kali nak happykan diri sendiri, mesti kena berkira-kira pasal baki akaun.”',
-                  '“Kalaulah ada satu jalan tambah income yang fleksibel tanpa buat hidup makin serabut…”'
-                ],
-            contradictions: [
-              'Luar nampak macam kita tak kisah pun pasal keinginan sendiri, padahal dalam hati kita cuma dah terbiasa letak diri sendiri kat nombor paling akhir.',
-              'Kita selalu cakap "takpe, aku okay je tak beli", sedangkan sebenarnya kita cuma penat nak rasa serba salah setiap kali keluarkan duit untuk diri sendiri.'
-            ],
-            situations: [
-              'Tengok benda yang kita teringin dalam cart, tapi tutup app sebab dahulukan komitmen lain',
-              'Teringin nak ada duit poket sendiri supaya tak rasa bersalah bila nak reward diri',
-              'Nak cari peluang tambah rezeki tanpa mengabaikan tanggungjawab utama'
-            ]
-          };
+        // Detect mindset / quote / assumption in sentence 2 (e.g. "Mindset dia, buat sendiri lagi kaya")
+        let mindsetQuote = '';
+        let premiseClause = s0;
+        const mindsetMatch = s1.match(/^(?:mindset\s+\w+|anggapan\s+\w+|ayat\s+\w+|dia\s+cakap|dia\s+kata|orang\s+cakap|orang\s+ingat|fikiran\s+\w+)[,:]?\s*(.+)$/i);
+        if (mindsetMatch) {
+          mindsetQuote = this._cleanSentence(mindsetMatch[1]);
+          premiseClause = s1;
+        } else if (s1 && !hasUnfinishedPadahal) {
+          premiseClause = s1;
         }
 
-        if (isRestBurnout) {
-          return {
-            domain: 'rest',
-            firstSentence,
-            secondSentence,
-            desireClause: firstSentence,
-            constraintClause: secondSentence || 'otak masih non-stop fikir macam-macam benda yang belum selesai',
-            bridgeClause: 'rehat bukan hadiah lepas semua kerja siap, tapi keperluan supaya you tak burn out diam-diam',
-            isOfferOrAds: false,
-            isMotherhoodWomen: false,
-            theme: 'the quiet guilt around resting and mental exhaustion',
-            emotion: 'mental tiredness, subtle guilt, and needing permission to slow down',
-            microScenes: [
-              'Badan dah baring atas katil pukul 12 malam, lampu bilik dah tutup, tapi mata masih tenung siling sebab dalam kepala tengah replay balik semua benda yang belum sempat siap hari ni.',
-              'Baru duduk bersandar 15 minit tanpa pegang phone atau buat kerja, tiba-tiba datang rasa resah dan bersalah macam kita tengah membazir masa—padahal dari pagi otak tak berhenti bekerja.',
-              'Bila orang tanya "you okay tak?", mulut automatik jawab "okay je, penat sikit biasa lah", sebab kita sendiri tak tahu macam mana nak explain penat yang bukan kat badan, tapi kat kepala.'
-            ],
-            monologues: [
-              '“Kenapa aku duduk diam kejap pun rasa bersalah macam buat salah besar eh?”',
-              '“Nanti dah settle semua kerja ni baru aku boleh betul-betul rehat… masalahnya senarai tu tak pernah habis.”',
-              '“Aku bukan malas, aku cuma dah terlalu lama paksa otak jalan 100% tanpa berhenti.”'
-            ],
-            contradictions: [
-              'Kat luar orang nampak kita produktif dan kuat urus semua benda, padahal kat dalam tenaga kita dah tinggal 5% dan cuma bertahan guna sisa semangat.',
-              'Kita pandai suruh orang lain jaga diri dan rehat secukupnya, tapi bila turn diri sendiri nak berhenti kejap, kita hukum diri dengan rasa bersalah.'
-            ],
-            situations: [
-              'Baring atas katil tapi otak masih susun to-do list esok',
-              'Rasa bersalah bila ambil 30 minit untuk diri sendiri tanpa buat benda produktif',
-              'Jawab "I okay je" bila orang tanya, padahal tenaga emosi dah habis'
-            ]
-          };
+        // Split explicit contrast if present in any sentence ("... tapi ..." / "... padahal ..." / "... cuma ...")
+        const contrastMatch = raw.match(/^(.+?)\b(?:tapi|tetapi|cuma|padaha+l+|but|however)\b\s*(.+)$/is);
+        let explicitContrast = '';
+        if (contrastMatch && !hasUnfinishedPadahal) {
+          explicitContrast = this._toOwnerVoice(this._cleanSentence(contrastMatch[2]).split(/[.!?\n]/)[0]);
+        } else if (!hasUnfinishedPadahal && restSentences.length > 0) {
+          explicitContrast = restSentences.join('. ');
         }
 
-        if (isConsistency) {
-          return {
-            domain: 'consistency',
-            firstSentence,
-            secondSentence,
-            desireClause: firstSentence,
-            constraintClause: secondSentence || 'terlalu banyak benda dalam kepala sampai nak mula satu langkah pun rasa berat',
-            bridgeClause: 'konsisten bukan bermaksud sentiasa laju setiap hari, tapi tak hilang terus walaupun langkah hari ni kecil',
-            isOfferOrAds: false,
-            isMotherhoodWomen: false,
-            theme: 'creative overwhelm and the quiet pressure to always show up',
-            emotion: 'overthinking, self-pressure, and wanting to stay genuine',
-            microScenes: [
-              'Buka phone dengan niat nak buat sesuatu yang produktif, tapi last-last cuma tenung skrin kosong 20 minit sebab idea dalam kepala bersimpang-siur dan semua rasa "tak cukup bagus".',
-              'Tengok timeline orang lain nampak macam semua orang laju je capai target masing-masing, terus datang suara halus dalam kepala yang buat kita rasa tertinggal jauh kat belakang.',
-              'Ada hari you boleh buat 10 benda serentak dengan tenang, tapi ada hari nak mulakan satu benda kecil pun rasa macam kena angkat batu besar.'
-            ],
-            monologues: [
-              '“Kenapa orang lain nampak senang je konsisten, tapi aku nak mula balik pun rasa berat gila?”',
-              '“Kalau aku buat ni sekarang, nanti orang judge ke tak eh? Ke baik aku tunggu semua dah perfect dulu?”',
-              '“Sebenarnya aku bukan tak nak buat, kepala aku cuma dah terlalu penuh.”'
-            ],
-            contradictions: [
-              'Orang luar nampak kita macam "tak konsisten" atau "hilang kejap", padahal kat belakang tabir kita tengah berperang dengan overthinking sendiri.',
-              'Kita ingat orang lain tak pernah rasa stuck, sedangkan semua orang cuma tunjuk bahagian yang dah siap—bukan bahagian yang tengah serabut.'
-            ],
-            situations: [
-              'Tenung skrin kosong sebab terlalu banyak benda berlegar dalam kepala',
-              'Bandingkan proses belakang tabir sendiri dengan highlight orang lain',
-              'Ambil masa lama untuk kumpul tenaga emosi sebelum tunjuk muka'
-            ]
-          };
-        }
+        // Build context-faithful reality reflections anchored directly to their exact words
+        const quoteRef = mindsetQuote
+          ? `“${this._lowerFirst(mindsetQuote)}”`
+          : `“${this._lowerFirst(premiseClause)}”`;
 
-        if (isRelationship) {
-          return {
-            domain: 'relationship',
-            firstSentence,
-            secondSentence,
-            desireClause: firstSentence,
-            constraintClause: secondSentence || 'kita pilih untuk diam sebab malas nak panjangkan cerita atau takut disalah faham',
-            bridgeClause: 'kadang-kadang kita bukan nak menang berhujah, kita cuma nak rasa didengar tanpa perlu merayu untuk difahami',
-            isOfferOrAds: false,
-            isMotherhoodWomen: false,
-            theme: 'unspoken emotional distance and the exhaustion of always keeping the peace',
-            emotion: 'quiet longing to be understood without having to beg for it',
-            microScenes: [
-              'Tengah duduk sebelah-menyebelah atau tengok skrin masing-masing, nak luah apa yang terbuku dalam hati tapi last-last telan balik sebab fikir "kalau cakap pun nanti jadi benda lain".',
-              'Dah taip panjang-panjang nak explain perasaan sebenar, lepas tu tekan backspace satu-satu dan tukar jadi "takpe lah, okay je" sebab dah penat nak ajar orang cara faham kita.',
-              'Kat luar semua orang ingat keadaan kita tenang-tenang je, padahal ada banyak benda kecil yang kita simpan diam-diam supaya suasana tak keruh.'
-            ],
-            monologues: [
-              '“Aku bukan nak bergaduh pun, aku cuma nak rasa yang perasaan aku ni wujud dan dihargai.”',
-              '“Kenapa benda yang simple macam ni pun aku kena explain berkali-kali baru nak faham?”',
-              '“Takpelah, diam lagi senang daripada cakap tapi hati makin terasa.”'
-            ],
-            contradictions: [
-              'Bila kita diam, orang sangka kita dah okay dan tak ada masalah—padahal diam tu selalunya tanda kita dah terlalu penat nak explain.',
-              'Kita terlalu sibuk jaga hati dan emosi orang sekeliling sampai lupa hati sendiri pun tengah minta dipujuk.'
-            ],
-            situations: [
-              'Taip mesej panjang nak luah perasaan, lepas tu padam dan balas "okay je"',
-              'Pilih untuk diam supaya tak keruhkan keadaan walaupun hati terasa',
-              'Nampak tenang di mata orang lain tapi memendam banyak perkara'
+        const realityAngles = explicitContrast
+          ? [
+              `Padahal realitinya, ${this._lowerFirst(explicitContrast)}.`,
+              `Cuma orang luar jarang nampak bahagian di mana ${this._lowerFirst(explicitContrast)}.`,
+              `Bila duduk kat tempat kita sendiri baru tahu yang ${this._lowerFirst(explicitContrast)}.`
             ]
-          };
-        }
+          : [
+              `Padahal nak bangunkan ${coreSubject} dari kosong sampai betul-betul menjadi bukan kerja sekali duduk—ada fasa research, susun struktur, trial and error, dan masa yang terbakar kat belakang.`,
+              `Padahal kat belakang tabir ${coreSubject}, banyak benda yang orang luar tak nampak: proses meneka apa yang orang perlukan, ubah berkali-kali bila tak menjadi, dan tenaga fikir sebelum hasilnya nampak mudah.`,
+              `Padahal antara sekadar bercakap pasal ${coreSubject} dengan betul-betul menghadap proses dia hari-hari, jurangnya jauh lebih besar daripada yang orang sangka.`
+            ];
 
-        if (isWorkMoney) {
-          return {
-            domain: 'work_money',
-            firstSentence,
-            secondSentence,
-            desireClause: firstSentence,
-            constraintClause: secondSentence || 'tanggungjawab makin bertambah tapi ruang bernafas untuk diri sendiri makin sempit',
-            bridgeClause: 'fasa dewasa ni memang tak ada buku manual, dan penat pikul semuanya sorang-sorang tu bukan tanda you gagal',
-            isOfferOrAds: false,
-            isMotherhoodWomen: false,
-            theme: 'the silent weight of adulthood responsibilities and financial pressure',
-            emotion: 'quiet pressure, resilience, and wanting breathing space',
-            microScenes: [
-              'Tengah stuck dalam jam balik kerja atau duduk kejap dalam kereta sebelum masuk rumah, ambil masa 5 minit senyap-senyap cuma untuk tarik nafas sebelum sambung peranan seterusnya.',
-              'Buka banking app hujung bulan, tarik nafas panjang sambil susun balik bajet dalam kepala—pastikan semua komitmen selesai dulu sebelum fikir pasal diri sendiri.',
-              'Orang nampak kita mampu urus itu ini dan nampak stabil, tapi tak ramai tahu berapa banyak keinginan sendiri yang kita korbankan diam-diam kat belakang.'
-            ],
-            monologues: [
-              '“Penatnya jadi dewasa ni bila semua orang bergantung kat kita, tapi kita sendiri tak tahu nak mengadu kat siapa.”',
-              '“Aku bukan tak bersyukur dengan apa yang ada, cuma kadang-kadang rasa nak bernafas lega sikit je.”',
-              '“Sabar sikit lagi, satu-satu kita settle… walaupun dalam hati tengah penat gila.”'
-            ],
-            contradictions: [
-              'Kat luar nampak macam kita dah "pandai bawa diri", padahal dalam kepala kita pun tengah meneka-neka langkah seterusnya.',
-              'Kita selalu nampak kuat depan keluarga dan kawan, sampai orang lupa kita pun manusia yang perlukan sokongan.'
-            ],
-            situations: [
-              'Duduk diam 5 minit dalam kereta lepas balik kerja sebelum masuk rumah',
-              'Susun bajet komitmen dalam kepala dengan tenang walaupun hati risau',
-              'Jadi tempat bergantung orang lain masa diri sendiri tengah penat'
+        const situationScenes = isConversationTrigger && s1
+          ? [
+              `${s0}. ${s1}—masa dengar ayat tu, dalam hati terus terdetik satu perkataan panjang: “Padahal…”`,
+              `Bila orang luar dengar cerita permukaan pasal ${coreSubject}, mereka terus buat kesimpulan mudah macam ${quoteRef} tanpa tahu cerita penuh kat belakang.`,
+              `Pernah tak you senyum je depan orang yang bertanya pasal ${coreSubject}, sebab dalam kepala you tahu kalau nak explain realiti sebenar pun belum tentu mereka faham?`
             ]
-          };
-        }
+          : [
+              `Tengah duduk diam lepas hadap rutin harian, fikiran teringat balik pasal ${this._lowerFirst(s0)}—dan baru sedar betapa ramai orang cuma nampak permukaan luar je.`,
+              `Bila orang sekeliling sebut pasal ${coreSubject}, selalu keluar kesimpulan cepat macam ${quoteRef}, padahal realiti kat dalam jauh lebih berlapis.`,
+              `Ada masa kita pilih untuk senyum dan simpan je apa yang kita tahu pasal ${coreSubject}, sebab malas nak berhujah dengan orang yang tak duduk kat tempat kita.`
+            ];
 
-        // General Personal Observation / Thought — anchored 100% to their exact sentences
-        const topicLower = this._lowerFirst(firstSentence);
-        const secondLower = secondSentence ? this._lowerFirst(secondSentence) : '';
+        const innerMonologues = [
+          `“Padahal kalau tahu berapa banyak masa, tenaga fikir, dan percubaan gagal kat belakang ${coreSubject}, belum tentu orang cakap semudah tu…”`,
+          `“Senang je orang luar buat kesimpulan ${quoteRef}—sebab mereka cuma nampak bahagian yang dah siap, bukan bahagian yang tengah pening kepala.”`,
+          `“Kadang-kadang malas nak explain panjang pasal ${coreSubject}, sebab orang yang tak lalui sendiri memang akan nampak semuanya nampak mudah.”`
+        ];
 
         return {
-          domain: 'general',
-          firstSentence,
-          secondSentence,
-          desireClause: firstSentence,
-          constraintClause: secondSentence || 'banyak benda yang kita perhati dan simpan dalam kepala tanpa sempat luah kat sesiapa',
-          bridgeClause: secondLower || 'apa yang you nampak dan rasa tu sebenarnya lebih ramai orang faham daripada yang you sangka',
-          isOfferOrAds: false,
-          isMotherhoodWomen: false,
-          theme: `the real perspective behind ${topicLower}`,
-          emotion: 'honest reflection, clarity, and genuine care',
-          microScenes: [
-            `Tengah duduk sorang-sorang lepas habis urusan harian, tiba-tiba fikiran teringat balik pasal ${topicLower}—dan baru sedar selama ni benda ni memang dekat dengan apa yang kita lalui.`,
-            secondLower
-              ? `Kat luar orang nampak permukaan yang mudah, tapi bila fikir dalam-dalam pasal ${topicLower}, baru kita nampak yang ${secondLower}.`
-              : `Kat luar kita sembang macam biasa dengan orang sekeliling, tapi bila masuk bab ${topicLower}, ada satu perspektif yang ramai orang terlepas pandang.`,
-            `Kadang-kadang benda yang kita anggap "biasa je" tu lah sebenarnya yang paling banyak mengajar kita tentang cara faham orang lain.`
-          ],
-          monologues: [
-            `“Orang selalu nampak hasil kat luar je, tapi proses kat dalam tu yang sebenarnya paling banyak cerita.”`,
-            `“Bila fikir balik pasal ${topicLower}, baru sedar bukan semua benda boleh dinilai dari permukaan.”`,
-            `“Kalaulah ramai lagi yang nampak sudut ni, mesti masing-masing lebih menghargai proses.”`
-          ],
-          contradictions: [
-            `Orang luar cuma nampak permukaan yang nampak senang, sedangkan di sebalik ${topicLower} ada usaha dan pemikiran yang bukan sikit.`,
-            `Kita selalu anggap pemerhatian kecil ni biasa je, padahal bila diluahkan dengan jujur, ramai yang rupanya fikir benda sama.`
-          ],
-          situations: [
-            `Fikir mendalam pasal ${topicLower} masa tengah duduk diam`,
-            `Nampak jurang antara apa yang orang sangka dengan realiti sebenar`,
-            `Nak sampaikan sesuatu yang jujur dan bermanfaat tanpa bunyi berlagak`
-          ]
+          raw,
+          sentences,
+          s0,
+          s1,
+          s2,
+          coreSubject,
+          isConversationTrigger,
+          mindsetQuote,
+          premiseClause,
+          quoteRef,
+          explicitContrast,
+          hasUnfinishedPadahal,
+          realityAngles,
+          situationScenes,
+          innerMonologues
         };
       },
 
       /**
        * Composes rich, multi-paragraph Mirror Content across 8 psychological lenses
+       * using the owner's EXACT brain dump elements every single time.
        */
       _composeMirrorPiece(parsed, lensId, seed, tone, length) {
         const lenses = ['contradiction', 'micromoment', 'monologue', 'invisible_load', 'later_trap', 'permission', 'bestfriend', 'what_if'];
@@ -2183,239 +2015,103 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
           ? lenses[Math.abs(seed) % lenses.length]
           : lensId;
 
-        const microScene = this._pickVariant(parsed.microScenes, seed);
-        const monologue = this._pickVariant(parsed.monologues, seed + 1);
-        const contradiction = this._pickVariant(parsed.contradictions, seed + 2);
+        const realityLine = this._pickVariant(parsed.realityAngles, seed);
+        const sceneLine = this._pickVariant(parsed.situationScenes, seed + 1);
+        const monologueLine = this._pickVariant(parsed.innerMonologues, seed + 2);
 
         const lensNames = {
           contradiction: 'Lens 1 • Silent Contradiction',
-          micromoment: 'Lens 2 • Late-Night Micro-Moment',
+          micromoment: 'Lens 2 • Real-Life Moment',
           monologue: 'Lens 3 • Unspoken Internal Monologue',
-          invisible_load: 'Lens 4 • Behind-the-Scenes Effort',
+          invisible_load: 'Lens 4 • Behind-the-Scenes Reality',
           later_trap: 'Lens 5 • Surface vs Substance',
           permission: 'Lens 6 • Honest Validation',
-          bestfriend: 'Lens 7 • Candid Chat',
-          what_if: 'Lens 8 • Fresh Perspective'
+          bestfriend: 'Lens 7 • Candid Best-Friend Chat',
+          what_if: 'Lens 8 • Fresh Perspective Shift'
         };
 
         let opening = '';
-        let mirrorMoment = microScene;
-        let deeperConnection = contradiction;
+        let mirrorMoment = sceneLine;
+        let deeperConnection = realityLine;
         let mainMessage = '';
         let closing = '';
 
-        if (parsed.domain === 'creator_builder') {
-          const premise = this._lowerFirst(parsed.desireClause);
-          const craftReality = this._lowerFirst(parsed.constraintClause);
-          const coreGoal = this._lowerFirst(parsed.bridgeClause);
+        const subject = parsed.coreSubject;
+        const quoteRef = parsed.quoteRef;
 
-          switch (activeLens) {
-            case 'contradiction':
-              opening = `Kelakar kan bila sekarang ramai fikir ${premise}, padahal realitinya ${craftReality}.`;
-              mirrorMoment = microScene;
-              deeperConnection = contradiction;
-              mainMessage = `Sebab bagi I, benda yang paling penting bukan sekadar siap cepat—tapi macam mana ${coreGoal}. Bila pengguna buka je, terus rasa mesra, comel, dan betul-betul selesaikan masalah mereka.`;
-              closing = `Korang setuju tak yang sentuhan manusia kat belakang tabir tu lah yang buat sesuatu app atau design ada "jiwa"?`;
-              break;
+        switch (activeLens) {
+          case 'contradiction':
+            opening = parsed.isConversationTrigger && parsed.s1
+              ? `${parsed.s0}. Lepas tu keluar ayat: ${quoteRef}.`
+              : `Kelakar kan bila orang luar nampak permukaan pasal ${subject} dan terus simpulkan ${quoteRef}.`;
+            mirrorMoment = sceneLine;
+            deeperConnection = `${realityLine} Orang cuma nampak bahagian yang nampak senang, tapi bahagian yang makan masa dan tenaga fikir tu selalunya tersembunyi.`;
+            mainMessage = `Sebab tu dalam bab ${subject}, apa yang nampak “mudah” kat mata orang lain selalunya hasil daripada proses panjang yang mereka tak pernah lalui sendiri.`;
+            closing = `Korang pun pernah kena tak bila orang luar buat kesimpulan mudah pasal benda yang korang tengah usahakan?`;
+            break;
 
-            case 'micromoment':
-              opening = microScene;
-              mirrorMoment = `Bunyi macam detail kecil kan? Tapi hakikatnya ${premise}—dan untuk jadikan setiap bahagian nampak kemas, comel, dan mesra pengguna memang tak semudah yang orang sangka.`;
-              deeperConnection = `Dalam kepala selalu terdetik, ${monologue}`;
-              mainMessage = `And that’s the thing… AI cuma bantu percepatkan kerja, tapi rasa peduli untuk pastikan ${coreGoal} tu datang daripada hati orang yang membina.`;
-              closing = `Kalau you pun jenis yang teliti bab detail macam ni, I salute—kerja belakang tabir you memang berbaloi.`;
-              break;
+          case 'micromoment':
+            opening = sceneLine;
+            mirrorMoment = `Bunyi macam simple je kan bila orang sebut ${quoteRef}? Tapi bila kita sendiri yang duduk kat tempat tu dan hadap realiti ${subject}, baru kita tahu cerita sebenar.`;
+            deeperConnection = `${realityLine} Dalam hati mesti pernah terdetik, ${monologueLine}`;
+            mainMessage = `And that’s the thing… setiap benda yang nampak lancar kat luar tu ada harga masa, kesabaran, dan percubaan yang orang lain tak nampak.`;
+            closing = `Pernah tak korang alami momen macam ni—senyum je depan orang walaupun dalam hati penuh dengan perkataan “Padahal…”?`;
+            break;
 
-            case 'monologue':
-              opening = `${monologue} — Jujur, berapa ramai yang pernah fikir benda sama bila tengok orang lain buat sesuatu nampak macam senang gila?`;
-              mirrorMoment = microScene;
-              deeperConnection = `Kita semua tahu ${premise}. Cuma orang jarang nampak bahagian di mana ${craftReality}.`;
-              mainMessage = `Pada akhirnya, orang tak kisah pun berapa canggih tools yang kita pakai—yang orang ingat ialah bila ${coreGoal}.`;
-              closing = `Setuju tak? Kadang-kadang benda yang paling simple kat mata pengguna tu lah yang paling banyak makan masa nak susun.`;
-              break;
+          case 'monologue':
+            opening = `${monologueLine} — Jujur, berapa kerap ayat macam ni berulang dalam kepala bila sembang pasal ${subject}?`;
+            mirrorMoment = parsed.isConversationTrigger
+              ? `${parsed.s0}${parsed.s1 ? ` — ${parsed.s1}.` : '.'} Dari luar nampak macam perbualan biasa je, tapi kat dalam kepala terus terbayang segala proses sebenar kat belakang.`
+              : sceneLine;
+            deeperConnection = realityLine;
+            mainMessage = `Ramai orang suka menilai hasil akhir ${subject} berdasarkan apa yang mereka nampak sekali imbas, tanpa sedar berapa banyak usaha yang berlaku sebelum benda tu menjadi.`;
+            closing = `Setuju tak? Kadang-kadang diam dan teruskan kerja kita jauh lebih tenang daripada cuba yakinkan semua orang.`;
+            break;
 
-            case 'invisible_load':
-              opening = `Ramai orang nampak hasil akhir yang comel dan kemas kat skrin, tapi tak ramai tahu berapa banyak masa dan ketelitian yang dicurahkan kat belakang tabir.`;
-              mirrorMoment = microScene;
-              deeperConnection = `Sebab walaupun ${premise}, nak pastikan design tu mesra pengguna dan ${craftReality} tetap perlukan mata yang teliti.`;
-              mainMessage = `Tujuan sebenar kita bina sesuatu bukan sekadar nak tunjuk pandai guna AI, tapi supaya ${coreGoal}.`;
-              closing = `Pernah tak korang jumpa satu app atau game yang terus buat korang rasa "eh, comel & senangnya guna ni"?`;
-              break;
+          case 'invisible_load':
+            opening = `Ramai orang cuma nampak hasil luar bila bercakap pasal ${subject}, tapi tak ramai yang tahu apa sebenarnya yang berlaku di sebalik tabir.`;
+            mirrorMoment = parsed.isConversationTrigger && parsed.s1
+              ? `Bila ada yang cakap ${quoteRef}, kita tahu mereka bercakap dari sudut pandang orang yang belum pernah menghadap proses penuh ${subject}.`
+              : sceneLine;
+            deeperConnection = `${realityLine} Bukan sebab kita nak merungut, cuma realitinya tak semudah satu ayat ringkas.`;
+            mainMessage = `Setiap langkah dalam ${subject} perlukan ketelitian, masa untuk belajar, dan kesediaan untuk betulkan kesilapan yang orang luar tak pernah nampak.`;
+            closing = `Kalau you pun tengah hadap proses belakang tabir yang orang lain tak nampak sekarang, keep going—usaha you tu tetap bermakna.`;
+            break;
 
-            case 'later_trap':
-              opening = `Perasan tak sekarang makin banyak benda yang nampak siap cepat guna AI, tapi bila kita cuba guna sendiri—rasa "kosong" dan tak mesra pengguna?`;
-              mirrorMoment = microScene;
-              deeperConnection = `Sebab ${premise}, tapi ramai terlepas pandang yang ${craftReality}.`;
-              mainMessage = `Beza paling ketara ialah niat: bila fokus utama kita adalah ${coreGoal}, setiap warna, butang, dan feature akan terasa hidup dan dekat dengan pengguna.`;
-              closing = `Quality dan empathy dalam design memang tak boleh dipintas. Faham tak?`;
-              break;
+          case 'later_trap':
+            opening = `Perasan tak betapa mudahnya orang buat andaian ${quoteRef} bila mereka tengok ${subject} dari jauh?`;
+            mirrorMoment = sceneLine;
+            deeperConnection = `${realityLine} Beza antara tekaan dari luar dengan pengalaman sebenar ialah kita tahu apa yang jadi bila sesuatu tak berjalan seperti yang dirancang.`;
+            mainMessage = `Bila kita faham realiti sebenar di sebalik ${subject}, kita dah tak mudah terpengaruh dengan pandangan permukaan orang yang tak berada dalam kasut kita.`;
+            closing = `Faham tak maksud I? Kadang-kadang orang yang paling banyak komen tu lah yang paling jauh dari pengalaman sebenar.`;
+            break;
 
-            case 'permission':
-              opening = `Sometimes kita terlalu cepat anggap kerja orang lain senang semata-mata sebab sekarang dah ada teknologi dan AI.`;
-              mirrorMoment = microScene;
-              deeperConnection = contradiction;
-              mainMessage = `Jadi kalau you tengah bertungkus-lumus kemaskan sesuatu supaya nampak comel, kemas, dan ${coreGoal}—ketahuilah usaha detail you tu memang nampak bezanya.`;
-              closing = `Keep going! Pengguna sentiasa boleh rasa mana satu yang dibuat sekadar siap, dan mana satu yang dibuat dengan hati.`;
-              break;
+          case 'permission':
+            opening = `Sometimes penat juga kan bila orang sekeliling buat kesimpulan ringan macam ${quoteRef} pasal ${subject}.`;
+            mirrorMoment = sceneLine;
+            deeperConnection = `${realityLine} Jadi kalau you rasa macam “kalau lah diorang tahu cerita sebenar kat belakang…”, perasaan you tu sangat valid.`;
+            mainMessage = `You tak wajib explain setiap titik peluh dan masa yang you laburkan dalam ${subject} semata-mata nak bagi orang lain faham.`;
+            closing = `Cukup you sendiri tahu nilai usaha yang you buat hari-hari. Save post ni kalau hari ni you rasa orang tak nampak usaha you.`;
+            break;
 
-            case 'bestfriend':
-              opening = `Jujur cakap—memang sekarang ramai boleh guna AI untuk buat games atau app, tapi nak bagi UI comel, kids-friendly, dan banyak feature best tu bukan kerja 5 minit tau.`;
-              mirrorMoment = microScene;
-              deeperConnection = `Silap haribulan, lagi lama masa habis kat bab nak bagi nampak simple dan senang guna daripada buat kod dia sendiri. ${monologue}`;
-              mainMessage = `Sebab paling penting bagi I ialah ${coreGoal}. Kalau comel je tapi tak berguna pun tak jadi juga, kan?`;
-              closing = `Korang kalau guna mana-mana app, korang lagi tengok UI comel dulu ke feature dia dulu?`;
-              break;
+          case 'bestfriend':
+            opening = parsed.isConversationTrigger && parsed.s1
+              ? `Jujur cakap—${this._lowerFirst(parsed.s0)}, lepas tu selamba je keluar ayat ${quoteRef}. I senyum je lah dalam hati…`
+              : `Mengaku cepat—siapa kat sini selalu rasa nak gelak kecil bila dengar orang cakap ${quoteRef} pasal ${subject}?`;
+            mirrorMoment = `Dalam kepala terus bunyi satu perkataan panjang: *Padahal…* ${realityLine.replace(/^Padahal\s*/i, '')}`;
+            deeperConnection = `Kelakar kan macam mana orang luar boleh nampak ${subject} tu macam petik jari terus siap, sedangkan kita yang menghadap ni tahu berapa banyak benda kena susun satu-satu.`;
+            mainMessage = `Tapi tu lah, orang memang selalu nampak bahagian yang dah cantik je. Proses pening kepala kat belakang tu biar kita-kita je yang faham.`;
+            closing = `Korang pernah kena situasi sebiji macam ni tak? Cerita sikit kat komen!`;
+            break;
 
-            case 'what_if':
-            default:
-              opening = `Cuba bayangkan beza antara dua produk digital: satu dibuat sekadar nak cepat siap guna AI, satu lagi disusun teliti supaya mesra pengguna, comel, dan betul-betul berguna.`;
-              mirrorMoment = microScene;
-              deeperConnection = `Hakikatnya ${premise}, cuma ${craftReality}.`;
-              mainMessage = `Bila matlamat utama kita ialah ${coreGoal}, setiap detail kecil kat skrin tu berubah jadi pengalaman yang buat orang tersenyum masa guna.`;
-              closing = `Itu lah seni sebenar di sebalik teknologi—bila dia terasa dekat dan membantu manusia.`;
-              break;
-          }
-        } else if (parsed.isOfferOrAds) {
-          const desire = this._lowerFirst(parsed.desireClause);
-          const constraint = this._lowerFirst(parsed.constraintClause);
-          const bridge = this._lowerFirst(parsed.bridgeClause);
-
-          switch (activeLens) {
-            case 'contradiction':
-              opening = `Kelakar kan bila kat luar kita selalu cakap "takpe, aku tak kisah pun tak beli apa-apa untuk diri sendiri", padahal jauh dalam sudut hati, ${desire}.`;
-              mirrorMoment = microScene;
-              deeperConnection = `Masalahnya bukan sebab kita tak reti bersyukur. Cuma bila ${constraint}, setiap keinginan kecil untuk diri sendiri automatik rasa macam satu beban tambahan. Dalam kepala selalu berbisik, ${monologue}`;
-              mainMessage = `Actually, you tak perlu terus-terusan padam keinginan sendiri semata-mata nak jaga komitmen lain. Sebab ${bridge}—jadi you tetap boleh utamakan keluarga sambil bina ruang kewangan untuk diri you sendiri.`;
-              closing = `Kalau you pun pernah rasa dilema macam ni, cuba DM I "NAK TAHU" atau komen kat bawah—kita sembang santai tanpa paksaan.`;
-              break;
-
-            case 'micromoment':
-              opening = microScene;
-              mirrorMoment = `Bunyi macam benda kecil kan? Tapi bila hari-hari kita buat benda yang sama—tahan keinginan sendiri sebab ${constraint}—lama-lama hati pun rasa penat.`;
-              deeperConnection = `Jujur cakap, ${desire} tu bukan benda mengada-ngada. Itu cara paling simple untuk kita hargai diri sendiri lepas penat urus macam-macam benda. Dalam hati mesti pernah terdetik, ${monologue}`;
-              mainMessage = `And that’s the thing… ${bridge}. You boleh mula dari rumah ikut rentak masa you, tanpa perlu korbankan tanggungjawab depan mata.`;
-              closing = `Nak I tunjuk macam mana cara dia jalan? Tekan link kat bio atau DM I sekarang, I share secara jujur.`;
-              break;
-
-            case 'monologue':
-              opening = `${monologue} — Pernah tak ayat sebiji macam ni melintas dalam kepala you?`;
-              mirrorMoment = microScene;
-              deeperConnection = `Kita semua tahu ${desire}. Cuma realitinya, ${constraint}. Sampai satu tahap, nak reward diri sendiri pun kena fikir dua tiga kali sebab takut ganggu bajet lain.`;
-              mainMessage = `Sebab tu I suka bila ${bridge}. Bukan janji bulan bintang, tapi satu ruang praktikal untuk you ada duit poket sendiri sambil jaga apa yang paling penting dalam hidup you.`;
-              closing = `Kalau ayat kat atas tu kena tepat dengan situasi you bulan ni, DM I "READY"—I explain step by step.`;
-              break;
-
-            case 'invisible_load':
-              opening = `Ramai orang nampak betapa kuatnya kita urus tanggungjawab hari-hari, tapi tak ramai yang perasan berapa banyak keinginan sendiri yang kita simpan diam-diam kat belakang.`;
-              mirrorMoment = microScene;
-              deeperConnection = `Sebab bila ${constraint}, kita dah terbiasa letak diri sendiri kat tangga paling bawah. Padahal ${desire} tu benda normal untuk mana-mana wanita pun.`;
-              mainMessage = `You tak boleh terus-terusan kosongkan tangki sendiri untuk orang lain tanpa isi balik untuk diri you. Actually, ${bridge}—supaya you ada pendapatan sendiri tanpa perlu abaikan keluarga.`;
-              closing = `Kalau you tengah cari peluang yang faham komitmen seorang wanita, jom borak kejap kat DM.`;
-              break;
-
-            case 'later_trap':
-              opening = `Berapa kali dah bulan ni you cakap kat diri sendiri, "Takpelah, bulan depan je lah aku beli untuk diri sendiri"?`;
-              mirrorMoment = microScene;
-              deeperConnection = `Perangkap perkataan "nanti-nanti" ni ialah setiap bulan mesti ada komitmen baru yang muncul. Bila ${constraint}, giliran kita untuk reward diri sendiri tak pernah betul-betul sampai.`;
-              mainMessage = `Sebab tu ${bridge}. Bila you ada sumber income tambahan yang fleksibel dari rumah, you dah tak perlu tangguh kebahagiaan kecil diri sendiri lagi.`;
-              closing = `Nak mula ubah rutin bulan ni? Drop komen "SAYA NAK" atau DM I sekarang.`;
-              break;
-
-            case 'permission':
-              opening = `Kenapa eh setiap kali nak belanja sikit untuk happykan diri sendiri, kita selalu rasa serba salah macam buat salah besar?`;
-              mirrorMoment = microScene;
-              deeperConnection = `Padahal ${desire} tu bukan tamak, dan bukan tak fikir masa depan. Cuma bila ${constraint}, kita rasa macam tak layak nak dapat bahagian untuk diri sendiri.`;
-              mainMessage = `You layak rasa selesa dan hargai penat lelah sendiri tanpa mengabaikan keluarga. Dan berita baiknya, ${bridge}.`;
-              closing = `Kalau you nak tahu macam mana nak mula secara santai dari rumah, DM I bila-bila masa—I guide dari awal.`;
-              break;
-
-            case 'bestfriend':
-              opening = `Mengaku cepat—berapa banyak barang dalam wishlist atau cart you yang masih tersadai sebab asyik kira bajet komitmen lain dulu?`;
-              mirrorMoment = microScene;
-              deeperConnection = `I faham sangat perasaan tu sebab jujur cakap, ${desire}. Tapi bila ${constraint}, memang automatik kita dahulukan orang lain dulu daripada diri sendiri.`;
-              mainMessage = `Cuma sampai bila kita nak tengok je orang lain reward diri, kan? Actually, ${bridge}. Fleksibel, boleh buat dari rumah, dan anak depan mata pun terjaga.`;
-              closing = `Kalau you nak tengok cara I buat, klik link kat bio atau DM I—kita sembang macam kawan.`;
-              break;
-
-            case 'what_if':
-            default:
-              opening = `Cuba bayangkan kalau bulan ni you dah tak perlu tekan kalkulator dalam kepala setiap kali nak beli sesuatu untuk diri sendiri.`;
-              mirrorMoment = microScene;
-              deeperConnection = `Selama ni kita terpaksa tahan diri bukan sebab tak nak, tapi sebab ${constraint}. Dalam hati selalu terfikir, ${monologue}`;
-              mainMessage = `What if kalau I cakap ${bridge}? You tak perlu pilih antara jaga keluarga atau ada duit sendiri, sebab dua-dua boleh jalan seiring.`;
-              closing = `Berminat nak tengok peluang ni dengan lebih dekat? DM I "INFO" sekarang, I kongsikan details penuh.`;
-              break;
-          }
-        } else {
-          // Pure Relatable Emotional / Observational Mirror Content
-          const topic = this._lowerFirst(parsed.firstSentence);
-
-          switch (activeLens) {
-            case 'contradiction':
-              opening = `Peliks kan bila kat luar kita boleh senyum, gelak dan borak macam tak ada apa-apa yang berlaku, padahal jauh dalam kepala kita tengah sarat fikir pasal ${topic}.`;
-              mirrorMoment = microScene;
-              deeperConnection = contradiction;
-              mainMessage = `Kadang-kadang kita bukan sengaja nak berlakon kuat. Kita cuma dah terlalu penat nak explain benda yang belum tentu orang lain boleh faham kalau mereka tak duduk kat tempat kita.`;
-              closing = `Kalau hari ni you tengah pakai "topeng okay" tu depan orang ramai, I harap bila balik rumah nanti you bagi ruang kat diri sendiri untuk betul-betul bernafas. Faham tak?`;
-              break;
-
-            case 'micromoment':
-              opening = microScene;
-              mirrorMoment = `Detik-detik sunyi macam ni lah yang selalunya paling jujur. Masa tak ada sesiapa tengok, baru semua rasa pasal ${topic} tu datang serentak.`;
-              deeperConnection = `Dalam kepala mula terngiang-ngiang ayat yang kita tak pernah sebut kuat-kuat: ${monologue}`;
-              mainMessage = `Actually, perasaan tu wujud bukan untuk hukum you—tapi sebagai tanda yang hati dan kepala you dah terlalu lama tahan benda ni sorang-sorang.`;
-              closing = `You tak perlu selesaikan semua benda malam ni juga. Cukup akui yang you penat, dan bagi diri sendiri rehat. Kan?`;
-              break;
-
-            case 'monologue':
-              opening = `${monologue} — Jujur, berapa kerap ayat sebiji macam ni berulang dalam kepala you tapi you tak pernah cerita kat sesiapa?`;
-              mirrorMoment = microScene;
-              deeperConnection = contradiction;
-              mainMessage = `Kita selalu fikir kita sorang je yang rasa macam ni, sedangkan ramai je orang kat luar sana yang tengah bawa dialog dalaman yang sama setiap hari.`;
-              closing = `Bila perasaan tu datang lagi hari ni, jangan marah diri sendiri okay? You tengah cuba hadap hidup sebaik yang you mampu.`;
-              break;
-
-            case 'invisible_load':
-              opening = `Ada jenis penat yang tak hilang walaupun you tidur 8 jam—sebab yang penat tu bukan badan, tapi fikiran yang non-stop memikul hal ${topic}.`;
-              mirrorMoment = microScene;
-              deeperConnection = `Beban macam ni orang luar tak nampak sebab dia tak ada bentuk fizikal. Kita tetap bangun, tetap urus rutin macam biasa, sambil simpan semuanya diam-diam.`;
-              mainMessage = `Tapi you manusia, bukan mesin yang boleh jalan tanpa henti. Bila tangki emosi dah hampir kosong, slow down bukan satu kelemahan—itu cara paling bijak untuk jaga diri.`;
-              closing = `Hari ni cuba lepaskan satu benda yang you tak wajib kawal. Bagi ruang sikit untuk diri you bernafas.`;
-              break;
-
-            case 'later_trap':
-              opening = `Kita ni selalu sangat tangguh ketenangan diri sendiri dengan ayat, "Nanti dah settle semua benda baru aku boleh rasa lega."`;
-              mirrorMoment = microScene;
-              deeperConnection = `Masalahnya, bila fikir pasal ${topic}, selalu ada je benda baru yang muncul. Kalau kita tunggu semua sempurna dulu baru nak tenang, kita akan sentiasa rasa tertinggal.`;
-              mainMessage = `Ketenangan tak mula bila semua masalah hilang—dia mula bila kita berhenti paksa diri untuk pegang semua benda sekaligus.`;
-              closing = `Take it one small step at a time hari ni. Apa yang you buat sekarang pun dah cukup bermakna.`;
-              break;
-
-            case 'permission':
-              opening = `Sometimes I rasa kita terlalu kejam dengan diri sendiri bila berdepan dengan benda macam ${topic}.`;
-              mirrorMoment = microScene;
-              deeperConnection = `Kalau kawan baik kita yang lalui benda sama, mesti kita peluk dan cakap "takpe, normal lah rasa macam tu". Tapi bila kena kat diri sendiri, kita terus cop diri lemah.`;
-              mainMessage = `You tak perlu minta izin sesiapa untuk rasa penat, kecewa, atau perlukan masa untuk susun balik langkah. Perasaan you tu valid sepenuhnya.`;
-              closing = `Save post ni sebagai reminder lembut kalau hari ni kepala you rasa terlalu bising.`;
-              break;
-
-            case 'bestfriend':
-              opening = `Haa, mengaku cepat—siapa kat sini luar nampak chill je, tapi dalam kepala dah macam ada 15 tab terbuka pasal ${topic}?`;
-              mirrorMoment = microScene;
-              deeperConnection = `Kelakar kan macam mana kita boleh nasihat orang lain macam pakar motivasi, padahal diri sendiri pun tengah cuba survive satu hari demi satu hari.`;
-              mainMessage = `And that’s the thing… kita semua tengah belajar. Tak ada siapa pun yang betul-betul ada jawapan untuk semua benda kat fasa ni.`;
-              closing = `Kalau korang pun tengah dalam fasa yang sama, drop satu komen kat bawah—sekurang-kurangnya kita tahu kita tak sorang-sorang.`;
-              break;
-
-            case 'what_if':
-            default:
-              opening = `Cuba bayangkan apa jadi kalau hari ni you berhenti lawan perasaan sendiri pasal ${topic}, dan cuba faham apa sebenarnya yang diri you tengah minta.`;
-              mirrorMoment = microScene;
-              deeperConnection = contradiction;
-              mainMessage = `Kadang-kadang jawapan yang kita cari tu tak datang masa kita tengah paksa otak berfikir keras—dia datang masa kita bagi diri sendiri ruang untuk bertenang.`;
-              closing = `Tarik nafas dalam-dalam kejap. You’re doing much better than you give yourself credit for.`;
-              break;
-          }
+          case 'what_if':
+          default:
+            opening = `Cuba bayangkan kalau sebelum orang buat kesimpulan ${quoteRef} pasal ${subject}, mereka sempat tengok dulu apa yang berlaku kat belakang tabir.`;
+            mirrorMoment = sceneLine;
+            deeperConnection = realityLine;
+            mainMessage = `Bila kita nampak kedua-dua belah cerita tentang ${subject}, baru kita sedar bahawa setiap hasil yang nampak mudah tu sebenarnya dibina dengan usaha yang konsisten.`;
+            closing = `Pada akhirnya, pengalaman sebenar sentiasa mengajar kita lebih banyak daripada sekadar andaian dari luar. Kan?`;
+            break;
         }
 
         return {
@@ -2429,7 +2125,7 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
         };
       },
 
-      async _simulateDelay(ms = 320) {
+      async _simulateDelay(ms = 280) {
         return new Promise(resolve => setTimeout(resolve, ms));
       },
 
@@ -2454,60 +2150,50 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
         const remote = await this._callRemoteIfConfigured('analyseIdea', { idea }, settings);
         if (remote && remote.coreMessage) return remote;
 
-        await this._simulateDelay(380);
-        const parsed = this._deepMirrorParse(idea.rawText);
+        await this._simulateDelay(340);
+        const parsed = this._analyzeRawThought(idea.rawText);
 
         const angles = [
           {
             id: 'contradiction',
             label: '1. Silent Contradiction',
-            title: 'Apa yang orang nampak kat luar vs realiti usaha kat dalam',
-            hookIdea: parsed.contradictions[0]
+            title: `Andaian luar (${parsed.quoteRef}) vs realiti sebenar ${parsed.coreSubject}`,
+            hookIdea: `${parsed.s0}${parsed.s1 ? `. ${parsed.s1}.` : '.'} ${parsed.realityAngles[0]}`
           },
           {
-            id: 'micromoment',
-            label: '2. Late-Night Micro-Moment',
-            title: 'Zoom masuk ke satu situasi harian yang buat pembaca terus angguk',
-            hookIdea: parsed.microScenes[0]
+            id: 'bestfriend',
+            label: '2. Candid Best-Friend Chat',
+            title: `Reaksi jujur bila dengar orang cakap ${parsed.quoteRef}`,
+            hookIdea: `Senyum je depan orang, tapi dalam hati penuh dengan perkataan “Padahal…”`
           },
           {
             id: 'monologue',
             label: '3. Internal Monologue',
-            title: 'Suarakan dialog dalam hati yang pembaca simpan sorang-sorang',
-            hookIdea: parsed.monologues[0]
+            title: `Suara dalam kepala yang terdetik pasal ${parsed.coreSubject}`,
+            hookIdea: parsed.innerMonologues[0]
           },
           {
-            id: 'later_trap',
-            label: '4. Surface vs Substance',
-            title: 'Beza antara benda yang sekadar siap dengan benda yang ada jiwa',
-            hookIdea: 'Tunjukkan kenapa sentuhan teliti dan keikhlasan lebih penting daripada sekadar nampak gempak.'
+            id: 'invisible_load',
+            label: '4. Behind-the-Scenes Reality',
+            title: `Apa yang orang luar terlepas pandang tentang ${parsed.coreSubject}`,
+            hookIdea: parsed.realityAngles[1]
           },
           {
             id: 'what_if',
-            label: '5. Fresh Perspective',
-            title: 'Buka sudut pandang baru yang hangat dan mudah diterima',
-            hookIdea: `Kongsikan pandangan jujur tentang ${this._lowerFirst(parsed.bridgeClause)}.`
+            label: '5. Fresh Perspective Shift',
+            title: `Buka mata pembaca tentang proses sebenar di sebalik ${parsed.coreSubject}`,
+            hookIdea: `Tunjukkan jurang antara pandangan permukaan dengan pengalaman sebenar.`
           }
         ];
 
-        const coreMessageMap = {
-          creator_builder: `Mesej utama idea you ni adalah tentang ${parsed.theme}—bahawa teknologi atau AI hanyalah alat, tapi nilai sebenar datang daripada ketelitian untuk hasilkan sesuatu yang mesra pengguna dan betul-betul membantu.`,
-          offer_ads: `Mesej sebenar di sebalik nota you ni bukan sekadar nak promosi—tapi nak cerminkan keinginan wanita untuk reward diri sendiri tanpa rasa bersalah atau mengabaikan keluarga.`
-        };
-
-        const audienceMap = {
-          creator_builder: `Creators, builders, usahawan digital, dan pengguna yang menghargai produk atau app yang direka dengan teliti, comel, dan praktikal.`,
-          offer_ads: `Wanita, suri rumah, dan mak-mak yang nak jaga penampilan & ada duit poket sendiri, tapi tetap utamakan anak dan rumah tangga.`
-        };
-
         return {
-          coreMessage: coreMessageMap[parsed.domain] || `Mesej utama you ni adalah tentang ${parsed.theme}. Pembaca perlukan seseorang yang mampu suarakan apa yang mereka pendam tanpa menghakimi.`,
-          hiddenEmotion: `Ada lapisan ${parsed.emotion}. Penulisan yang paling kena adalah yang jujur, dekat dengan realiti harian, dan tak bunyi macam skrip template.`,
-          audienceConnection: audienceMap[parsed.domain] || `Audience yang nampak berfungsi dengan baik di mata orang lain, tapi dalam kepala sarat dengan benda yang tak terluah.`,
-          unspokenThoughts: parsed.monologues[0],
-          relatableSituations: parsed.microScenes,
+          coreMessage: `Mesej utama nota you ni adalah tentang jurang antara pandangan permukaan orang luar (${parsed.quoteRef}) dengan realiti sebenar di sebalik ${parsed.coreSubject}.`,
+          hiddenEmotion: `Ada rasa geli hati bercampur letih nak explain panjang—sebab orang yang bertanya atau memberi komen cuma nampak permukaan, bukan proses sebenar.`,
+          audienceConnection: `Audience yang sedang membina atau mengusahakan ${parsed.coreSubject} dan selalu berdepan dengan komen atau andaian mudah daripada orang sekeliling.`,
+          unspokenThoughts: parsed.innerMonologues[0],
+          relatableSituations: parsed.situationScenes,
           mirrorAngles: angles,
-          contentPotential: `Gunakan **Late-Night Micro-Moment** atau **Unspoken Internal Monologue** sebagai pembuka—pembaca akan terus rasa “eh, ni sebiji apa aku fikir” sebelum sempat scroll lalu.`
+          contentPotential: `Gunakan **Candid Best-Friend Chat** atau **Silent Contradiction**—mulakan terus dengan situasi/ayat ${parsed.quoteRef} supaya pembaca yang pernah kena benda sama terus rasa “eh, sebiji macam apa aku kena!”`
         };
       },
 
@@ -2515,11 +2201,11 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
         const remote = await this._callRemoteIfConfigured('generateContentAngles', { sourceText }, settings);
         if (remote && Array.isArray(remote.angles)) return remote.angles;
 
-        await this._simulateDelay(300);
+        await this._simulateDelay(260);
         this.generationSeed += 1;
-        const parsed = this._deepMirrorParse(sourceText);
+        const parsed = this._analyzeRawThought(sourceText);
 
-        const candidateLenses = ['contradiction', 'micromoment', 'monologue', 'invisible_load', 'later_trap', 'what_if'];
+        const candidateLenses = ['contradiction', 'bestfriend', 'monologue', 'micromoment', 'invisible_load', 'what_if'];
         return candidateLenses.map((lensId, i) => {
           const piece = this._composeMirrorPiece(parsed, lensId, this.generationSeed + i, 'Reflective', 'Medium');
           return {
@@ -2538,10 +2224,10 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
         }, settings);
         if (remote && remote.bodyText) return remote;
 
-        await this._simulateDelay(340);
+        await this._simulateDelay(300);
 
         this.generationSeed += 1;
-        const parsed = this._deepMirrorParse(sourceText);
+        const parsed = this._analyzeRawThought(sourceText);
         const sections = this._composeMirrorPiece(parsed, lensId, this.generationSeed, tone, length);
         if (selectedAngle) {
           sections.angleName = selectedAngle;
@@ -2560,9 +2246,9 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
         } else if (format === 'TikTok Talking-Head Script') {
           bodyText = `[0-4s HOOK — cakap jujur depan kamera]\n"${sections.opening}"\n\n[4-15s MIRROR SCENE — buat penonton angguk]\n"${sections.mirrorMoment}"\n\n[15-25s REAL TALK]\n"${sections.deeperConnection}"\n\n[25-35s MAIN MESSAGE & CLOSING]\n"${sections.mainMessage} ${sections.closing}"`;
         } else if (format === 'Lemon8 Aesthetic Diary Post') {
-          bodyText = `HEADLINE: ${parsed.firstSentence.slice(0, 58)}\n\n${sections.opening}\n\n${sections.mirrorMoment}\n\nApa Yang Ramai Tak Cakap:\n${sections.deeperConnection}\n\nReminder Untuk Kita:\n${sections.mainMessage}\n\n${sections.closing}`;
+          bodyText = `HEADLINE: ${parsed.s0.slice(0, 58)}\n\n${sections.opening}\n\n${sections.mirrorMoment}\n\nApa Yang Ramai Tak Nampak:\n${sections.deeperConnection}\n\nReminder Untuk Kita:\n${sections.mainMessage}\n\n${sections.closing}`;
         } else if (format === 'Lemon8 Honest Review / POV') {
-          bodyText = `POV: ${parsed.firstSentence.slice(0, 58)}\n\n1. Situasi Yang Ramai Lalui\n${sections.mirrorMoment}\n\n2. Realiti Di Sebalik Tabir\n${sections.deeperConnection}\n\n3. Perspektif Baru\n${sections.mainMessage}\n\n${sections.closing}`;
+          bodyText = `POV: ${parsed.s0.slice(0, 58)}\n\n1. Situasi Yang Ramai Lalui\n${sections.mirrorMoment}\n\n2. Realiti Di Sebalik Tabir\n${sections.deeperConnection}\n\n3. Perspektif Baru\n${sections.mainMessage}\n\n${sections.closing}`;
         } else if (format === 'Instagram Reels Hook & Caption') {
           bodyText = `[REELS COVER TEXT]\n${sections.opening.slice(0, 72)}\n\n[IG CAPTION]\n${sections.mirrorMoment}\n\n${sections.deeperConnection}\n\n${sections.mainMessage}\n\n${sections.closing}`;
         } else if (format === 'X (Twitter) Punchy Post') {
@@ -2577,7 +2263,7 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
           if (length === 'Short') {
             bodyText = `${sections.opening}\n\n${sections.mirrorMoment}\n\n${sections.mainMessage} ${sections.closing}`;
           } else if (length === 'Long') {
-            const extraScene = this._pickVariant(parsed.microScenes, this.generationSeed + 2);
+            const extraScene = this._pickVariant(parsed.situationScenes, this.generationSeed + 2);
             bodyText = `${sections.opening}\n\n${sections.mirrorMoment}\n\n${extraScene}\n\n${sections.deeperConnection}\n\n${sections.mainMessage}\n\n${sections.closing}`;
           } else {
             bodyText = `${sections.opening}\n\n${sections.mirrorMoment}\n\n${sections.deeperConnection}\n\n${sections.mainMessage}\n\n${sections.closing}`;
@@ -2586,7 +2272,7 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
 
         return {
           angleLabel: sections.angleName,
-          suggestedTitle: `${parsed.firstSentence.slice(0, 44)}${parsed.firstSentence.length > 44 ? '...' : ''}`,
+          suggestedTitle: `${parsed.s0.slice(0, 44)}${parsed.s0.length > 44 ? '...' : ''}`,
           bodyText: this._polishManglish(bodyText),
           sections
         };
@@ -2598,22 +2284,22 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
         }, settings);
         if (remote && Array.isArray(remote.slides)) return remote.slides;
 
-        await this._simulateDelay(340);
+        await this._simulateDelay(300);
         this.generationSeed += 1;
-        const parsed = this._deepMirrorParse(sourceText);
+        const parsed = this._analyzeRawThought(sourceText);
         const sections = this._composeMirrorPiece(parsed, lensId, this.generationSeed, tone, 'Medium');
         const count = Number(slideCount) || 7;
 
         const basePool = [
           { role: 'Slide 1 • Cover Hook', text: sections.opening },
           { role: 'Slide 2 • Situasi Sebenar', text: sections.mirrorMoment },
-          { role: 'Slide 3 • Suara Dalam Kepala', text: parsed.monologues[0] },
-          { role: 'Slide 4 • Kontradiksi Sebenar', text: sections.deeperConnection },
+          { role: 'Slide 3 • Suara Dalam Kepala', text: parsed.innerMonologues[0] },
+          { role: 'Slide 4 • Realiti Sebenar', text: sections.deeperConnection },
           { role: 'Slide 5 • Intipati Utama', text: sections.mainMessage },
-          { role: 'Slide 6 • Belakang Tabir', text: parsed.microScenes[1] || parsed.microScenes[0] },
-          { role: 'Slide 7 • Reminder Lembut', text: `Benda yang dibuat dengan ketelitian dan hati sentiasa terasa bezanya bila orang lain guna.` },
-          { role: 'Slide 8 • Refleksi Ringkas', text: `Kadang-kadang detail kecil yang orang tak nampak tu lah yang paling memberi kesan.` },
-          { role: 'Slide 9 • Shared Truth', text: `Ramai je yang nampak hasil kat luar, tapi hanya orang yang teliti faham proses kat dalam.` }
+          { role: 'Slide 6 • Belakang Tabir', text: parsed.realityAngles[1] || parsed.realityAngles[0] },
+          { role: 'Slide 7 • Reminder Lembut', text: `Benda yang nampak mudah kat luar selalunya ada proses panjang kat belakang yang orang tak nampak.` },
+          { role: 'Slide 8 • Refleksi Ringkas', text: `Kadang-kadang tak perlu explain panjang pun—orang yang pernah lalui sendiri akan terus faham.` },
+          { role: 'Slide 9 • Shared Truth', text: `Pengalaman sebenar sentiasa jauh lebih mendalam daripada sekadar andaian dari luar.` }
         ];
 
         const closingSlide = {
@@ -2632,83 +2318,267 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
         }));
       },
 
-      async rewriteContent(currentText, modifier, settings) {
+      /**
+       * Context-aware interactive refiner: every single modifier visibly transforms the text
+       * using the owner's exact brain dump context (never canned buckets).
+       */
+      async rewriteContent(currentText, modifier, settings, sourceContext = '') {
         const remote = await this._callRemoteIfConfigured('rewriteContent', { currentText, modifier }, settings);
-        if (remote && remote.bodyText) return remote.bodyText;
+        if (remote && remote.bodyText) return { bodyText: remote.bodyText, label: 'Refined' };
 
-        await this._simulateDelay(260);
+        await this._simulateDelay(200);
+        this.refineCounts[modifier] = (this.refineCounts[modifier] || 0) + 1;
+        const step = this.refineCounts[modifier];
+
+        const rawCtx = (sourceContext || currentText || '').trim();
+        const parsed = this._analyzeRawThought(rawCtx);
         const paragraphs = (currentText || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
-        if (paragraphs.length === 0) return currentText;
+        if (paragraphs.length === 0) return { bodyText: currentText, label: 'Refined' };
+
+        const subject = parsed.coreSubject;
+        const quoteRef = parsed.quoteRef;
 
         switch (modifier) {
           case 'rewrite_opening': {
-            const altOpenings = [
-              'Peliks kan bila kat luar semua nampak mudah dan pantas, padahal kat belakang tabir banyak benda kecil yang kita susun dengan penuh teliti.',
-              'Pernah tak you perhati sesuatu yang nampak simple kat luar, tapi bila cuba buat sendiri baru sedar betapa halusnya kerja kat dalam?',
-              'Actually, ada satu perspektif yang ramai terlepas pandang bila tengok hasil kerja orang lain kat media sosial.',
-              'Jujur cakap—beza antara sesuatu yang "sekadar siap" dengan sesuatu yang "betul-betul membantu" terletak pada ketelitian orang yang membina.'
+            const hookPool = [
+              parsed.isConversationTrigger && parsed.s1
+                ? `${parsed.s0}. Lepas tu selamba je keluar ayat ${quoteRef}. I senyum je lah dalam hati…`
+                : `Kelakar kan bila orang luar nampak permukaan pasal ${subject} dan terus simpulkan ${quoteRef}.`,
+              `Pernah tak korang dengar orang buat kesimpulan ${quoteRef} pasal ${subject}—padahal cerita sebenar kat belakang jauh berbeza?`,
+              `Jujur cakap—bila orang cakap ${quoteRef} tentang ${subject}, dalam kepala terus terdetik satu perkataan panjang: “Padahal…”`,
+              `Actually, ramai orang nampak ${subject} ni macam benda yang senang dan lurus je, sampai mereka lupa apa yang berlaku di sebalik tabir.`,
+              `Sometimes kita pilih untuk senyum je bila orang sebut ${quoteRef}, sebab kita tahu tak semua orang nampak proses penuh ${subject}.`
             ];
-            paragraphs[0] = altOpenings[Math.floor(Math.random() * altOpenings.length)];
-            return this._polishManglish(paragraphs.join('\n\n'));
-          }
-          case 'rewrite_ending': {
-            const altEndings = [
-              'Kalau benda ni relate dengan you hari ni, save dulu or share pandangan korang kat komen.',
-              'Pada akhirnya, ketelitian dan keikhlasan dalam berkarya tu lah yang buat orang ingat.',
-              'Korang setuju tak dengan perspektif ni, or ada pandangan lain?'
-            ];
-            paragraphs[paragraphs.length - 1] = altEndings[Math.floor(Math.random() * altEndings.length)];
-            return this._polishManglish(paragraphs.join('\n\n'));
-          }
-          case 'more_natural':
-            return this._polishManglish(
-              paragraphs.join('\n\n')
-                .replace(/Oleh itu,/gi, 'So,')
-                .replace(/Namun demikian,/gi, 'Tapi kan,')
-                .replace(/Seterusnya,/gi, 'Lepas tu,')
-                .replace(/Heyy, you know what\?\s*/gi, '')
-            );
-          case 'more_conversational':
-            if (!paragraphs[paragraphs.length - 1].includes('kan?') && !paragraphs[paragraphs.length - 1].includes('?')) {
-              paragraphs[paragraphs.length - 1] += ' Kan?';
+            let nextHook = hookPool[(step - 1) % hookPool.length];
+            if (nextHook === paragraphs[0] && hookPool.length > 1) {
+              nextHook = hookPool[step % hookPool.length];
             }
-            return this._polishManglish(paragraphs.join('\n\n'));
-          case 'deeper':
-            paragraphs.splice(
-              Math.max(1, paragraphs.length - 1),
-              0,
-              'Sebab manusia sentiasa boleh rasa bila sesuatu tu dibuat dengan penuh perhatian—bukan sekadar ikut trend atau kejar siap cepat.'
-            );
-            return this._polishManglish(paragraphs.join('\n\n'));
-          case 'shorter':
-            if (paragraphs.length <= 3) return this._polishManglish(paragraphs.join('\n\n'));
-            return this._polishManglish([paragraphs[0], paragraphs[1], paragraphs[paragraphs.length - 1]].join('\n\n'));
-          case 'less_emotional':
-            return this._polishManglish(
-              paragraphs.join('\n\n')
-                .replace(/kejam/gi, 'keras')
-                .replace(/serba salah/gi, 'berkira-kira')
-                .replace(/silent battle/gi, 'cabaran harian')
-            );
-          case 'more_relatable':
-            paragraphs.splice(
-              1,
-              0,
-              'Macam tengah malam bila semua orang dah tidur, you masih semak balik detail satu per satu semata-mata nak pastikan hasilnya kemas, mesra pengguna, dan betul-betul memudahkan orang lain.'
-            );
-            return this._polishManglish(paragraphs.join('\n\n'));
-          case 'remove_ai_wording':
-            return this._polishManglish(
-              paragraphs.join('\n\n')
+            paragraphs[0] = nextHook;
+            return {
+              bodyText: this._polishManglish(paragraphs.join('\n\n')),
+              label: `Hook Rewritten (#${step})`
+            };
+          }
+
+          case 'rewrite_ending': {
+            const closingPool = [
+              `Korang pun pernah kena tak bila orang luar buat kesimpulan mudah pasal ${subject} yang korang tengah usahakan?`,
+              `Setuju tak? Kadang-kadang diam dan teruskan kerja kita jauh lebih tenang daripada cuba explain kat orang yang cuma nampak permukaan.`,
+              `Pernah tak korang alami momen macam ni—senyum je depan orang walaupun dalam hati penuh dengan perkataan “Padahal…”? Share kat komen!`,
+              `Pada akhirnya, pengalaman sebenar sentiasa mengajar kita lebih banyak daripada sekadar andaian dari luar. Kan?`,
+              `Save post ni kalau hari ni you pun tengah hadap proses belakang tabir yang orang sekeliling tak nampak.`
+            ];
+            let nextClosing = closingPool[(step - 1) % closingPool.length];
+            if (nextClosing === paragraphs[paragraphs.length - 1] && closingPool.length > 1) {
+              nextClosing = closingPool[step % closingPool.length];
+            }
+            paragraphs[paragraphs.length - 1] = nextClosing;
+            return {
+              bodyText: this._polishManglish(paragraphs.join('\n\n')),
+              label: `Closing Rewritten (#${step})`
+            };
+          }
+
+          case 'more_natural': {
+            const naturalOpeners = ['Jujur cakap, ', 'Actually kan, ', 'Bila fikir balik, ', 'Tapi tu lah, '];
+            let updated = paragraphs.map((p, idx) => {
+              let line = p
+                .replace(/\bPada akhirnya,\s*/gi, 'End up, ')
+                .replace(/\bHakikatnya,?\s*/gi, 'Sebenarnya, ')
+                .replace(/\bKetahuilah\s*/gi, 'Percayalah yang ')
+                .replace(/\bOleh itu,\s*/gi, 'So, ')
+                .replace(/\bNamun demikian,\s*/gi, 'Tapi kan, ')
+                .replace(/\bmerupakan\b/gi, 'memang')
+                .replace(/\badalah\b/gi, 'memang')
+                .replace(/\bsekadar\b/gi, 'setakat')
+                .replace(/\bmenunjukkan\b/gi, 'tunjuk')
+                .replace(/\bmemerlukan\b/gi, 'makan')
+                .replace(/—/g, ' — ');
+
+              if (idx === 0 && step % 2 === 1 && !/^(Jujur|Actually|Bila|Tapi)/i.test(line)) {
+                line = naturalOpeners[(step - 1) % naturalOpeners.length] + this._lowerFirst(line);
+              } else if (idx === 0 && step % 2 === 0) {
+                line = line.replace(/^(Jujur cakap,\s*|Actually kan,\s*|Bila fikir balik,\s*|Tapi tu lah,\s*)/i, '');
+                line = line.charAt(0).toUpperCase() + line.slice(1);
+              }
+              return line;
+            });
+            return {
+              bodyText: this._polishManglish(updated.join('\n\n')),
+              label: 'Smoothed to Casual Manglish'
+            };
+          }
+
+          case 'more_conversational': {
+            const chatHooks = [
+              'Korang pernah tak perasan benda ni? ',
+              'Cuba korang fikir kejap… ',
+              'Mengaku cepat—siapa kat sini pun rasa benda sama? ',
+              'Kita sembang jujur kejap tau. '
+            ];
+            const midCues = ['Faham tak maksud I?', 'Betul tak?', 'Logik kan?'];
+            const endQuestions = [
+              'Korang rasa macam mana pulak?',
+              'Setuju tak kalau I cakap macam ni?',
+              'Cuba share sikit pandangan korang kat bawah!'
+            ];
+
+            const cleanFirst = paragraphs[0].replace(/^(Korang pernah tak perasan benda ni\?\s*|Cuba korang fikir kejap…\s*|Mengaku cepat—siapa kat sini pun rasa benda sama\?\s*|Kita sembang jujur kejap tau\.\s*)/i, '');
+            paragraphs[0] = chatHooks[(step - 1) % chatHooks.length] + cleanFirst;
+
+            if (paragraphs.length > 2) {
+              const midIdx = 1;
+              paragraphs[midIdx] = paragraphs[midIdx].replace(/\s*(Faham tak maksud I\?|Betul tak\?|Logik kan\?)$/, '') + ' ' + midCues[(step - 1) % midCues.length];
+            }
+
+            const lastClean = paragraphs[paragraphs.length - 1].replace(/\s*(Korang rasa macam mana pulak\?|Setuju tak kalau I cakap macam ni\?|Cuba share sikit pandangan korang kat bawah!)$/, '');
+            paragraphs[paragraphs.length - 1] = `${lastClean} ${endQuestions[(step - 1) % endQuestions.length]}`;
+
+            return {
+              bodyText: this._polishManglish(paragraphs.join('\n\n')),
+              label: 'Made More Conversational'
+            };
+          }
+
+          case 'deeper': {
+            const deepLayers = [
+              `Sebab pada akhirnya, orang yang cuma melihat dari luar akan sentiasa nampak hasil akhir—sedangkan orang yang membina tahu setiap proses kat dalam ${subject}.`,
+              `Kadang-kadang bukan kita tak nak berkongsi cerita sebenar, cuma ada pengalaman dalam ${subject} yang hanya difahami oleh orang yang pernah lalui sendiri.`,
+              `${parsed.innerMonologues[(step - 1) % parsed.innerMonologues.length]} — Dan kat situ lah terletaknya beza antara andaian permukaan dengan pengalaman sebenar.`
+            ];
+            const chosenLayer = deepLayers[(step - 1) % deepLayers.length];
+            const insertPos = Math.max(1, paragraphs.length - 1);
+            if (paragraphs.length >= 5 && step > 1) {
+              paragraphs[insertPos - 1] = chosenLayer;
+            } else {
+              paragraphs.splice(insertPos, 0, chosenLayer);
+            }
+            return {
+              bodyText: this._polishManglish(paragraphs.join('\n\n')),
+              label: 'Added Deeper Reflection'
+            };
+          }
+
+          case 'shorter': {
+            if (paragraphs.length > 3) {
+              const removeIdx = Math.floor(paragraphs.length / 2);
+              paragraphs.splice(removeIdx, 1);
+              return {
+                bodyText: this._polishManglish(paragraphs.join('\n\n')),
+                label: `Shortened (${paragraphs.length} paragraphs)`
+              };
+            }
+            if (paragraphs.length === 3) {
+              const combinedClosing = `${paragraphs[1].split(/[.!?]/)[0].trim()}. ${paragraphs[2]}`;
+              return {
+                bodyText: this._polishManglish([paragraphs[0], combinedClosing].join('\n\n')),
+                label: 'Condensed to 2 Punchy Paragraphs'
+              };
+            }
+            const ultraCrisp = paragraphs.map(p => {
+              const sents = p.split(/(?<=[.!?])\s+/).filter(Boolean);
+              return sents.length > 1 ? sents[0] : p;
+            });
+            return {
+              bodyText: this._polishManglish(ultraCrisp.join('\n\n')),
+              label: 'Ultra-Crisp Version'
+            };
+          }
+
+          case 'less_emotional': {
+            const calmClosings = [
+              `Realitinya, memahami proses penuh di sebalik ${subject} jauh lebih penting daripada sekadar membuat andaian awal.`,
+              `Ringkasnya, setiap hasil yang baik memerlukan perancangan, masa, dan pelaksanaan yang teliti.`,
+              `Bila kita lihat gambaran penuh ${subject}, baru kita nampak usaha sebenar di belakangnya.`
+            ];
+            const tonedDown = paragraphs.map((p, idx) => {
+              let line = p
+                .replace(/gelak kecil/gi, 'senyum')
+                .replace(/pening kepala/gi, 'merancang dengan teliti')
+                .replace(/terbakar/gi, 'dilaburkan')
+                .replace(/gila/gi, 'sangat')
+                .replace(/titik peluh/gi, 'usaha');
+              if (idx === paragraphs.length - 1) {
+                line = calmClosings[(step - 1) % calmClosings.length];
+              }
+              return line;
+            });
+            return {
+              bodyText: this._polishManglish(tonedDown.join('\n\n')),
+              label: 'Toned Down (Calm & Grounded)'
+            };
+          }
+
+          case 'more_relatable': {
+            const scenes = parsed.situationScenes;
+            const chosenScene = scenes[(step - 1) % scenes.length];
+            if (paragraphs.length >= 5 && step > 1) {
+              paragraphs[1] = chosenScene;
+            } else {
+              paragraphs.splice(1, 0, chosenScene);
+            }
+            return {
+              bodyText: this._polishManglish(paragraphs.join('\n\n')),
+              label: `Added Micro-Scene (#${step})`
+            };
+          }
+
+          case 'remove_ai_wording': {
+            const rawOpeners = [
+              'Terus terang cakap, ',
+              'Benda ni simple je sebenarnya — ',
+              'Ramai tak perasan benda ni, tapi ',
+              'Kalau tengok betul-betul, '
+            ];
+            const scrubbed = paragraphs.map((p, idx) => {
+              let line = p
                 .replace(/Heyy, you know what\?\s*/gi, '')
                 .replace(/And that’s the thing…\s*/gi, 'Sebenarnya, ')
+                .replace(/Cuba bayangkan\s*/gi, 'Tengok je ')
+                .replace(/Pada akhirnya,\s*/gi, 'Last-last, ')
+                .replace(/Hakikatnya,?\s*/gi, 'Memang ')
+                .replace(/Ketahuilah\s*/gi, 'Ingat je ')
                 .replace(/In today's fast-paced world,?\s*/gi, '')
-                .replace(/Ultimately,?\s*/gi, 'So, ')
-            );
+                .replace(/Ultimately,?\s*/gi, 'So, ');
+
+              if (idx === 0) {
+                line = line.replace(/^(Terus terang cakap,\s*|Benda ni simple je sebenarnya —\s*|Ramai tak perasan benda ni, tapi\s*|Kalau tengok betul-betul,\s*)/i, '');
+                line = rawOpeners[(step - 1) % rawOpeners.length] + this._lowerFirst(line);
+              }
+              return line;
+            });
+            return {
+              bodyText: this._polishManglish(scrubbed.join('\n\n')),
+              label: 'Scrubbed Formulaic Wording'
+            };
+          }
+
           case 'improve_flow':
-            return this._polishManglish(paragraphs.map(p => p.replace(/\s+/g, ' ').trim()).join('\n\n'));
-          default:
-            return this._polishManglish(paragraphs.join('\n\n'));
+          default: {
+            const expanded = [];
+            paragraphs.forEach(p => {
+              const sents = p.split(/(?<=[.!?])\s+/).map(s => s.trim()).filter(Boolean);
+              if (sents.length >= 2) {
+                expanded.push(sents[0]);
+                expanded.push(sents.slice(1).join(' '));
+              } else {
+                expanded.push(p);
+              }
+            });
+            const finalFlow = expanded.length > 6
+              ? [
+                  expanded[0],
+                  `${expanded[1]} ${expanded[2]}`,
+                  `${expanded[3]} ${expanded[4]}`,
+                  expanded.slice(5).join(' ')
+                ]
+              : expanded;
+
+            return {
+              bodyText: this._polishManglish(finalFlow.join('\n\n')),
+              label: 'Paced for Mobile Flow'
+            };
+          }
         }
       }
     };
@@ -3685,6 +3555,9 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
             this.updateLiveSocmedPreview();
           }
 
+          const refineBadge = document.getElementById('last-refine-badge');
+          if (refineBadge) refineBadge.classList.add('hidden');
+
           loading.classList.add('hidden');
           outWrapper.classList.remove('hidden');
           this.updateOutputStats();
@@ -3820,17 +3693,28 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
           return;
         }
 
+        const sourceContext = document.getElementById('create-prompt-input').value.trim();
+
         if (this.isCarouselMode) {
+          let lastLabel = 'Carousel Refined';
           for (let i = 0; i < this.currentCarouselSlides.length; i++) {
-            this.currentCarouselSlides[i].text = await AIService.rewriteContent(
+            const res = await AIService.rewriteContent(
               this.currentCarouselSlides[i].text,
               modifier,
-              this.state.settings
+              this.state.settings,
+              sourceContext
             );
+            this.currentCarouselSlides[i].text = res.bodyText;
+            lastLabel = res.label;
           }
           this.renderCarouselSlides();
           this.updateOutputStats();
-          this.showToast('Carousel slides refined!');
+          const refineBadge = document.getElementById('last-refine-badge');
+          if (refineBadge) {
+            refineBadge.textContent = lastLabel;
+            refineBadge.classList.remove('hidden');
+          }
+          this.showToast(`${lastLabel} on slides!`);
           return;
         }
 
@@ -3838,11 +3722,28 @@ Restrictions: Zero profanity, vulgar expressions, or carutan. Never fabricate pe
         const current = textarea.value;
         if (!current.trim()) return;
 
-        const updated = await AIService.rewriteContent(current, modifier, this.state.settings);
-        textarea.value = updated;
+        const res = await AIService.rewriteContent(current, modifier, this.state.settings, sourceContext);
+        textarea.value = res.bodyText;
+
+        textarea.classList.remove('animate-refine-flash');
+        void textarea.offsetWidth;
+        textarea.classList.add('animate-refine-flash');
+
+        if (modifier === 'rewrite_ending') {
+          textarea.scrollTop = textarea.scrollHeight;
+        } else {
+          textarea.scrollTop = 0;
+        }
+
+        const refineBadge = document.getElementById('last-refine-badge');
+        if (refineBadge) {
+          refineBadge.textContent = res.label;
+          refineBadge.classList.remove('hidden');
+        }
+
         this.updateOutputStats();
         this.updateLiveSocmedPreview();
-        this.showToast('Copy refined in your Manglish voice!');
+        this.showToast(`${res.label}!`);
       },
 
       updateOutputStats() {
